@@ -98,45 +98,46 @@ def recvBits(numBits, clkPin, misoPin):
 # Adapted from http://arkouji.cocolog-nifty.com/blog/2016/02/raspberry-pi360.html
 ######
     
-pygame.init()
-sx = 600
-sy = 600
-pygame.display.set_mode((sx, sy), 0, 32)
-screen = pygame.display.get_surface()
 
-# open SPI device 0.0
-#spi = spidev.SpiDev()
-GPIO.setmode(GPIO.BCM) # use GPIO Number
-#spi.open(0, 0)
-setupSpiPins(CLK, MISO, MOSI, CS)
-
-StepPins = [17,22,23,24]
-# Set all pins as output
-for pin in StepPins:
-  print "Setup pins"
-  GPIO.setup(pin,GPIO.OUT)
-  GPIO.output(pin, False)
-# Define advanced sequence
-# as shown in manufacturers datasheet
-Seq = [[1,0,0,1],
-       [1,0,0,0],
-       [1,1,0,0],
-       [0,1,0,0],
-       [0,1,1,0],
-       [0,0,1,0],
-       [0,0,1,1],
-       [0,0,0,1]]
-
-StepCount = len(Seq)
-StepDir = 1 # Set to 1 or 2 for clockwise
-            # Set to -1 or -2 for anti-clockwise
-
-# Initialise variables
-StepCounter = 0
-Rrx = [0] *512
-Rry = [0] *512
 
 def lidar(CLK, MISO, MOSI, CS):
+    pygame.init()
+    sx = 600
+    sy = 600
+    pygame.display.set_mode((sx, sy), 0, 32)
+    screen = pygame.display.get_surface()
+
+    # open SPI device 0.0
+    #spi = spidev.SpiDev()
+    GPIO.setmode(GPIO.BCM) # use GPIO Number
+    #spi.open(0, 0)
+    setupSpiPins(CLK, MISO, MOSI, CS)
+
+    StepPins = [17,22,23,24]
+    # Set all pins as output
+    for pin in StepPins:
+      print "Setup pins"
+      GPIO.setup(pin,GPIO.OUT)
+      GPIO.output(pin, False)
+    # Define advanced sequence
+    # as shown in manufacturers datasheet
+    Seq = [[1,0,0,1],
+           [1,0,0,0],
+           [1,1,0,0],
+           [0,1,0,0],
+           [0,1,1,0],
+           [0,0,1,0],
+           [0,0,1,1],
+           [0,0,0,1]]
+
+    StepCount = len(Seq)
+    StepDir = 1 # Set to 1 or 2 for clockwise
+                # Set to -1 or -2 for anti-clockwise
+
+    # Initialise variables
+    StepCounter = 0
+    Rrx = [0] *512
+    Rry = [0] *512
     while (True):
 
       angle = 0
